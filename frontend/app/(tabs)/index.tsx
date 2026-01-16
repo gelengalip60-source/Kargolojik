@@ -84,10 +84,8 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container} edges={['left', 'right']}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        {/* Ad Placeholder */}
-        <View style={styles.adBanner}>
-          <Text style={styles.adText}>Reklam Alanı</Text>
-        </View>
+        {/* Banner Ad */}
+        <BannerAd />
 
         {/* Hero Section */}
         <View style={styles.heroSection}>
