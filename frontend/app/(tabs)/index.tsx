@@ -426,6 +426,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 24,
     marginTop: 8,
+    paddingBottom: 100, // Space for tab bar
   },
   footerText: {
     fontSize: 14,
