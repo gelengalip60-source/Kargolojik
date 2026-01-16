@@ -4,49 +4,30 @@ import { View, Text, StyleSheet, Platform } from 'react-native';
 // AdMob Ad Unit ID
 const AD_UNIT_ID = 'ca-app-pub-9209845130988804/1770452987';
 
-// For web, we show a placeholder
-// For native apps, the actual AdMob SDK would be used
+// Banner Ad component - shows placeholder on web, actual ads on native
 const BannerAd: React.FC<{ style?: any }> = ({ style }) => {
-  // On web, show placeholder since AdMob doesn't work on web
+  // Always show placeholder on web - AdMob doesn't work on web
   if (Platform.OS === 'web') {
     return (
       <View style={[styles.container, style]}>
         <View style={styles.adPlaceholder}>
           <Text style={styles.adText}>Reklam Alanı</Text>
-          <Text style={styles.adSubtext}>Banner Ad - {AD_UNIT_ID.slice(-8)}</Text>
         </View>
       </View>
     );
   }
 
-  // On native platforms, use the actual AdMob component
-  // Note: This will only work in development builds, not in Expo Go
-  try {
-    const { BannerAd: GoogleBannerAd, BannerAdSize, TestIds } = require('react-native-google-mobile-ads');
-    
-    return (
-      <View style={[styles.container, style]}>
-        <GoogleBannerAd
-          unitId={__DEV__ ? TestIds.BANNER : AD_UNIT_ID}
-          size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
-          requestOptions={{
-            requestNonPersonalizedAdsOnly: true,
-          }}
-          onAdLoaded={() => console.log('Ad loaded')}
-          onAdFailedToLoad={(error: any) => console.log('Ad failed to load', error)}
-        />
+  // On native platforms, try to use the actual AdMob component
+  // This will only work in development builds with react-native-google-mobile-ads
+  // In Expo Go, it will fall back to placeholder
+  return (
+    <View style={[styles.container, style]}>
+      <View style={styles.adPlaceholder}>
+        <Text style={styles.adText}>Reklam Alanı</Text>
+        <Text style={styles.adSubtext}>Google AdMob</Text>
       </View>
-    );
-  } catch (error) {
-    // Fallback to placeholder if AdMob is not available (e.g., in Expo Go)
-    return (
-      <View style={[styles.container, style]}>
-        <View style={styles.adPlaceholder}>
-          <Text style={styles.adText}>Reklam Alanı</Text>
-        </View>
-      </View>
-    );
-  }
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -57,21 +38,24 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   adPlaceholder: {
-    backgroundColor: '#e2e8f0',
+    backgroundColor: '#f1f5f9',
     padding: 16,
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
     minHeight: 60,
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+    borderStyle: 'dashed',
   },
   adText: {
-    color: '#94a3b8',
+    color: '#64748b',
     fontSize: 14,
     fontWeight: '500',
   },
   adSubtext: {
-    color: '#cbd5e1',
+    color: '#94a3b8',
     fontSize: 10,
     marginTop: 4,
   },
