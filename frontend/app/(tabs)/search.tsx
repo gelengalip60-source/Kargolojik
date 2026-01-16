@@ -261,10 +261,8 @@ export default function SearchScreen() {
         )}
       </View>
 
-      {/* Ad Placeholder */}
-      <View style={styles.adBanner}>
-        <Text style={styles.adText}>Reklam Alanı</Text>
-      </View>
+      {/* Banner Ad */}
+      <BannerAd />
 
       {/* Branch List */}
       <FlatList
