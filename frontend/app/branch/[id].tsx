@@ -108,10 +108,8 @@ export default function BranchDetailScreen() {
       <Stack.Screen options={{ title: branch.name }} />
       <SafeAreaView style={styles.container} edges={['left', 'right', 'bottom']}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          {/* Ad Placeholder */}
-          <View style={styles.adBanner}>
-            <Text style={styles.adText}>Reklam Alanı</Text>
-          </View>
+          {/* Banner Ad - Top */}
+          <BannerAd />
 
           {/* Branch Header */}
           <View style={styles.headerCard}>
