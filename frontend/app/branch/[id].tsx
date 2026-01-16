@@ -124,9 +124,12 @@ export default function BranchDetailScreen() {
                 />
               </View>
             )}
-            <View style={styles.companyBadge}>
-              <Text style={styles.companyText}>{branch.company || 'Kargo Şubesi'}</Text>
-            </View>
+            {/* Show company badge only if no logo available */}
+            {(!branch.company || !COMPANY_LOGOS[branch.company]) && (
+              <View style={styles.companyBadge}>
+                <Text style={styles.companyText}>{branch.company || 'Kargo Şubesi'}</Text>
+              </View>
+            )}
             <Text style={styles.branchName}>{branch.name}</Text>
             <View style={styles.locationRow}>
               <Feather name="map-pin" size={16} color="#1e88e5" />
