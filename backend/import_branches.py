@@ -64,15 +64,15 @@ def extract_branches_from_excel(filepath: str, company: str) -> list:
     
     for i, h in enumerate(headers):
         h_lower = h.lower().strip()
-        if 'şube' in h_lower or 'name' in h_lower or 'ad' in h_lower:
+        if 'sube_adi' in h_lower or 'şube' in h_lower or 'name' in h_lower:
             name_col = i
-        elif 'il' == h_lower or 'şehir' in h_lower or 'city' in h_lower:
+        elif 'sehir' in h_lower or 'şehir' in h_lower or 'city' in h_lower or h_lower == 'il':
             city_col = i
-        elif 'ilçe' in h_lower or 'district' in h_lower:
+        elif 'ilce' in h_lower or 'ilçe' in h_lower or 'district' in h_lower:
             district_col = i
         elif 'adres' in h_lower or 'address' in h_lower:
             address_col = i
-        elif 'telefon' in h_lower or 'phone' in h_lower:
+        elif 'telefon_1' in h_lower or 'telefon' in h_lower or 'phone' in h_lower:
             phone_col = i
     
     print(f"Column mapping: name={name_col}, city={city_col}, district={district_col}, address={address_col}, phone={phone_col}")
