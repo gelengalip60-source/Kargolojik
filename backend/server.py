@@ -358,17 +358,42 @@ async def get_branches(
     city: Optional[str] = None,
     company: Optional[str] = None
 ):
-    """Get branches with pagination and optional filtering"""
+    """Get branches with pagination and optional filtering
+    
+    Search supports multiple words in any order:
+    - "aras kargo milas" and "milas aras kargo" return the same results
+    - Each word is searched across name, address, city, district, and company fields
+    """
     query = {}
     
     if search:
-        search_regex = {"$regex": search, "$options": "i"}
-        query["$or"] = [
-            {"name": search_regex},
-            {"address": search_regex},
-            {"city": search_regex},
-            {"district": search_regex}
-        ]
+        # Split search into individual words and create AND condition for all words
+        words = search.strip().split()
+        if len(words) > 1:
+            # Multiple words: each word must match in any field (AND logic)
+            word_conditions = []
+            for word in words:
+                word_regex = {"$regex": word, "$options": "i"}
+                word_conditions.append({
+                    "$or": [
+                        {"name": word_regex},
+                        {"address": word_regex},
+                        {"city": word_regex},
+                        {"district": word_regex},
+                        {"company": word_regex}
+                    ]
+                })
+            query["$and"] = word_conditions
+        else:
+            # Single word: search across all fields
+            search_regex = {"$regex": search, "$options": "i"}
+            query["$or"] = [
+                {"name": search_regex},
+                {"address": search_regex},
+                {"city": search_regex},
+                {"district": search_regex},
+                {"company": search_regex}
+            ]
     
     if city:
         query["city"] = {"$regex": city, "$options": "i"}
