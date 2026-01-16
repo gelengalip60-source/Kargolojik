@@ -1,10 +1,9 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
 import { Feather } from '@expo/vector-icons';
-import { View, Text, Image, StyleSheet, Platform } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { View, Image, StyleSheet } from 'react-native';
 
-// Custom header component with logo
+// Custom header component with new logo
 const CustomHeader = () => (
   <View style={headerStyles.container}>
     <Image
@@ -12,7 +11,6 @@ const CustomHeader = () => (
       style={headerStyles.logo}
       resizeMode="contain"
     />
-    <Text style={headerStyles.title}>Kargolojik</Text>
   </View>
 );
 
@@ -22,44 +20,27 @@ const headerStyles = StyleSheet.create({
     alignItems: 'center',
   },
   logo: {
-    width: 32,
-    height: 32,
-    marginRight: 10,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#fff',
+    width: 140,
+    height: 36,
   },
 });
 
 export default function TabLayout() {
-  const insets = useSafeAreaInsets();
-  
   return (
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: '#1e88e5',
         tabBarInactiveTintColor: '#94a3b8',
+        tabBarShowLabel: false, // Hide all labels - only icons
         tabBarStyle: {
           backgroundColor: '#ffffff',
           borderTopWidth: 1,
           borderTopColor: '#e2e8f0',
-          height: 80,
-          paddingBottom: 20,
-          paddingTop: 10,
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          right: 0,
-        },
-        tabBarLabelStyle: {
-          fontSize: 11,
-          fontWeight: '600',
-          paddingBottom: 8,
+          height: 60,
+          paddingVertical: 10,
         },
         tabBarIconStyle: {
-          marginTop: 4,
+          marginTop: 0,
         },
         headerStyle: {
           backgroundColor: '#1e88e5',
@@ -75,8 +56,8 @@ export default function TabLayout() {
         options={{
           title: 'Ana Sayfa',
           headerTitle: () => <CustomHeader />,
-          tabBarIcon: ({ color, size }) => (
-            <Feather name="home" size={24} color={color} />
+          tabBarIcon: ({ color }) => (
+            <Feather name="home" size={26} color={color} />
           ),
         }}
       />
@@ -85,8 +66,8 @@ export default function TabLayout() {
         options={{
           title: 'Yardım',
           headerTitle: 'Yardım Konuları',
-          tabBarIcon: ({ color, size }) => (
-            <Feather name="help-circle" size={24} color={color} />
+          tabBarIcon: ({ color }) => (
+            <Feather name="help-circle" size={26} color={color} />
           ),
         }}
       />
@@ -95,8 +76,8 @@ export default function TabLayout() {
         options={{
           title: 'Şube Ara',
           headerTitle: 'Şube Arama',
-          tabBarIcon: ({ color, size }) => (
-            <Feather name="search" size={24} color={color} />
+          tabBarIcon: ({ color }) => (
+            <Feather name="search" size={26} color={color} />
           ),
         }}
       />
