@@ -9,6 +9,7 @@ import {
   Linking,
   Platform,
   Alert,
+  Image,
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useLocalSearchParams, Stack } from 'expo-router';
@@ -16,6 +17,18 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import axios from 'axios';
 
 const API_URL = process.env.EXPO_PUBLIC_BACKEND_URL || 'http://localhost:8001';
+
+// Company logos mapping
+const COMPANY_LOGOS: Record<string, any> = {
+  'Aras Kargo': require('../../assets/images/aras-logo.png'),
+  'DHL Kargo': require('../../assets/images/dhl-logo.png'),
+  'PTT Kargo': require('../../assets/images/ptt-logo.png'),
+  'Sürat Kargo': require('../../assets/images/surat-logo.png'),
+  'TNT Kargo': require('../../assets/images/tnt-logo.png'),
+  'UPS Kargo': null, // UPS logosu sonra eklenecek
+  'Yurtiçi Kargo': require('../../assets/images/yurtici-logo.png'),
+  'Inter Global Kargo': require('../../assets/images/inter-global-logo.png'),
+};
 
 interface Branch {
   id: string;
