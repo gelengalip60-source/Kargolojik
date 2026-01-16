@@ -25,7 +25,7 @@ const COMPANY_LOGOS: Record<string, any> = {
   'PTT Kargo': require('../../assets/images/ptt-logo.png'),
   'Sürat Kargo': require('../../assets/images/surat-logo.png'),
   'TNT Kargo': require('../../assets/images/tnt-logo.png'),
-  'UPS Kargo': null, // UPS logosu sonra eklenecek
+  'UPS Kargo': require('../../assets/images/ups-logo.png'),
   'Yurtiçi Kargo': require('../../assets/images/yurtici-logo.png'),
   'Inter Global Kargo': require('../../assets/images/inter-global-logo.png'),
 };
