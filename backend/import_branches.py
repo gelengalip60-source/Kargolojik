@@ -29,6 +29,21 @@ EXCEL_FILES = {
     'Sürat Kargo': 'https://customer-assets.emergentagent.com/job_shipntracker/artifacts/97ie2tcw_s%C3%BCrat.xlsx',
     'DHL Kargo': 'https://customer-assets.emergentagent.com/job_shipntracker/artifacts/ryngoqij_dhl.xlsx',
     'Inter Global Kargo': 'https://customer-assets.emergentagent.com/job_shipntracker/artifacts/arrfhpw9_inter.xlsx',
+    'TNT Kargo': 'https://customer-assets.emergentagent.com/job_shipntracker/artifacts/sev87zyu_tnt.xlsx',
+    'UPS Kargo': 'https://customer-assets.emergentagent.com/job_shipntracker/artifacts/fgvucihf_ups.xlsx',
+    'Yurtiçi Kargo': 'https://customer-assets.emergentagent.com/job_shipntracker/artifacts/5bvuzryg_yurti%C3%A7i.xlsx',
+}
+
+# Company logo URLs
+COMPANY_LOGOS = {
+    'Aras Kargo': 'https://customer-assets.emergentagent.com/job_shipntracker/artifacts/k3zkcxdq_aras-kargo-logo-png_seeklogo-510325.png',
+    'DHL Kargo': 'https://customer-assets.emergentagent.com/job_shipntracker/artifacts/eosc97km_dhl-logo-png_seeklogo-40800.png',
+    'PTT Kargo': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/PTT_logo.svg/512px-PTT_logo.svg.png',
+    'Sürat Kargo': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/S%C3%BCrat_Kargo_logo.svg/512px-S%C3%BCrat_Kargo_logo.svg.png',
+    'Yurtiçi Kargo': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Yurtici_Kargo_logo.svg/512px-Yurtici_Kargo_logo.svg.png',
+    'UPS Kargo': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/United_Parcel_Service_logo_2014.svg/512px-United_Parcel_Service_logo_2014.svg.png',
+    'TNT Kargo': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/TNT_Express_Logo.svg/512px-TNT_Express_Logo.svg.png',
+    'Inter Global Kargo': '',
 }
 
 async def download_file(url: str, filename: str) -> str:
