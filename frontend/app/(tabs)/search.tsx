@@ -35,7 +35,8 @@ const COMPANY_COLORS: Record<string, string> = {
   'Sürat Kargo': '#3498db',
   'Inter Global Kargo': '#9b59b6',
   'Yurtiçi Kargo': '#2ecc71',
-  'MNG Kargo': '#1abc9c',
+  'TNT Kargo': '#ff6b00',
+  'UPS Kargo': '#6d1a36',
 };
 
 export default function SearchScreen() {
