@@ -4,7 +4,7 @@
     "slug": "kargolojik",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/app-icon.png",
     "scheme": "kargolojik",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -14,16 +14,19 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/app-icon.png",
         "backgroundColor": "#1e88e5"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.kargolojik.app"
+      "package": "com.kargolojik.app",
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-9209845130988804~1893757821"
+      }
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/app-icon.png"
     },
     "plugins": [
       "expo-router",
@@ -35,17 +38,14 @@
           "resizeMode": "contain",
           "backgroundColor": "#1e88e5"
         }
-      ],
-      [
-        "react-native-google-mobile-ads",
-        {
-          "androidAppId": "ca-app-pub-9209845130988804~1893757821",
-          "iosAppId": "ca-app-pub-9209845130988804~1893757821"
-        }
       ]
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "admobAppId": "ca-app-pub-9209845130988804~1893757821",
+      "admobBannerUnitId": "ca-app-pub-9209845130988804/1770452987"
     }
   }
 }
