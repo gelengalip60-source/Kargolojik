@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   RefreshControl,
+  ScrollView,
+  Modal,
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useRouter, useLocalSearchParams } from 'expo-router';
@@ -26,27 +28,50 @@ interface Branch {
   phone: string;
 }
 
+const COMPANY_COLORS: Record<string, string> = {
+  'Aras Kargo': '#e74c3c',
+  'PTT Kargo': '#f1c40f',
+  'DHL Kargo': '#e67e22',
+  'Sürat Kargo': '#3498db',
+  'Inter Global Kargo': '#9b59b6',
+  'Yurtiçi Kargo': '#2ecc71',
+  'MNG Kargo': '#1abc9c',
+};
+
 export default function SearchScreen() {
   const router = useRouter();
   const params = useLocalSearchParams();
   const [searchQuery, setSearchQuery] = useState((params.q as string) || '');
   const [branches, setBranches] = useState<Branch[]>([]);
+  const [companies, setCompanies] = useState<string[]>([]);
+  const [selectedCompany, setSelectedCompany] = useState<string>('');
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [hasMore, setHasMore] = useState(true);
+  const [showFilterModal, setShowFilterModal] = useState(false);
 
   useEffect(() => {
+    fetchCompanies();
     if (params.q) {
       setSearchQuery(params.q as string);
-      fetchBranches(params.q as string, 1, true);
+      fetchBranches(params.q as string, '', 1, true);
     } else {
-      fetchBranches('', 1, true);
+      fetchBranches('', '', 1, true);
     }
   }, [params.q]);
 
-  const fetchBranches = async (query: string, pageNum: number, reset: boolean = false) => {
+  const fetchCompanies = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/api/companies`);
+      setCompanies(response.data.companies);
+    } catch (error) {
+      console.error('Error fetching companies:', error);
+    }
+  };
+
+  const fetchBranches = async (query: string, company: string, pageNum: number, reset: boolean = false) => {
     if (loading) return;
     
     setLoading(true);
@@ -54,6 +79,7 @@ export default function SearchScreen() {
       const response = await axios.get(`${API_URL}/api/branches`, {
         params: {
           search: query || undefined,
+          company: company || undefined,
           page: pageNum,
           limit: 20,
         },
@@ -78,18 +104,34 @@ export default function SearchScreen() {
   };
 
   const handleSearch = () => {
-    fetchBranches(searchQuery, 1, true);
+    fetchBranches(searchQuery, selectedCompany, 1, true);
   };
 
   const handleRefresh = () => {
     setRefreshing(true);
-    fetchBranches(searchQuery, 1, true);
+    fetchBranches(searchQuery, selectedCompany, 1, true);
   };
 
   const handleLoadMore = () => {
     if (!loading && hasMore) {
-      fetchBranches(searchQuery, page + 1, false);
+      fetchBranches(searchQuery, selectedCompany, page + 1, false);
     }
+  };
+
+  const handleCompanyFilter = (company: string) => {
+    setSelectedCompany(company);
+    setShowFilterModal(false);
+    fetchBranches(searchQuery, company, 1, true);
+  };
+
+  const clearFilters = () => {
+    setSelectedCompany('');
+    setSearchQuery('');
+    fetchBranches('', '', 1, true);
+  };
+
+  const getCompanyColor = (company: string) => {
+    return COMPANY_COLORS[company] || '#1e88e5';
   };
 
   const renderBranchItem = useCallback(({ item }: { item: Branch }) => (
@@ -98,8 +140,10 @@ export default function SearchScreen() {
       onPress={() => router.push(`/branch/${item.id}`)}
     >
       <View style={styles.branchHeader}>
-        <View style={styles.companyBadge}>
-          <Text style={styles.companyText}>{item.company || 'Kargo'}</Text>
+        <View style={[styles.companyBadge, { backgroundColor: `${getCompanyColor(item.company)}20` }]}>
+          <Text style={[styles.companyText, { color: getCompanyColor(item.company) }]}>
+            {item.company || 'Kargo'}
+          </Text>
         </View>
         <Feather name="chevron-right" size={20} color="#94a3b8" />
       </View>
@@ -158,7 +202,7 @@ export default function SearchScreen() {
           {searchQuery.length > 0 && (
             <TouchableOpacity onPress={() => {
               setSearchQuery('');
-              fetchBranches('', 1, true);
+              fetchBranches('', selectedCompany, 1, true);
             }}>
               <Feather name="x" size={20} color="#64748b" />
             </TouchableOpacity>
@@ -169,11 +213,50 @@ export default function SearchScreen() {
         </TouchableOpacity>
       </View>
 
+      {/* Filter Pills */}
+      <View style={styles.filterContainer}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <TouchableOpacity
+            style={[styles.filterPill, !selectedCompany && styles.filterPillActive]}
+            onPress={() => handleCompanyFilter('')}
+          >
+            <Text style={[styles.filterPillText, !selectedCompany && styles.filterPillTextActive]}>
+              Tümü
+            </Text>
+          </TouchableOpacity>
+          {companies.map((company) => (
+            <TouchableOpacity
+              key={company}
+              style={[
+                styles.filterPill,
+                selectedCompany === company && styles.filterPillActive,
+                selectedCompany === company && { borderColor: getCompanyColor(company) }
+              ]}
+              onPress={() => handleCompanyFilter(company)}
+            >
+              <View style={[styles.companyDot, { backgroundColor: getCompanyColor(company) }]} />
+              <Text style={[
+                styles.filterPillText,
+                selectedCompany === company && styles.filterPillTextActive,
+                selectedCompany === company && { color: getCompanyColor(company) }
+              ]}>
+                {company.replace(' Kargo', '')}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>
+
       {/* Results Count */}
       <View style={styles.resultsHeader}>
         <Text style={styles.resultsCount}>
-          {total} şube bulundu
+          {total.toLocaleString('tr-TR')} şube bulundu
         </Text>
+        {(selectedCompany || searchQuery) && (
+          <TouchableOpacity onPress={clearFilters}>
+            <Text style={styles.clearFilters}>Temizle</Text>
+          </TouchableOpacity>
+        )}
       </View>
 
       {/* Ad Placeholder */}
@@ -241,7 +324,46 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  filterContainer: {
+    backgroundColor: '#ffffff',
+    paddingVertical: 12,
+    paddingLeft: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e2e8f0',
+  },
+  filterPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 20,
+    borderWidth: 1.5,
+    borderColor: '#e2e8f0',
+    marginRight: 8,
+    backgroundColor: '#ffffff',
+  },
+  filterPillActive: {
+    borderColor: '#1e88e5',
+    backgroundColor: '#e0f2fe',
+  },
+  filterPillText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#64748b',
+  },
+  filterPillTextActive: {
+    color: '#1e88e5',
+  },
+  companyDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginRight: 6,
+  },
   resultsHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     paddingHorizontal: 16,
     paddingVertical: 12,
     backgroundColor: '#ffffff',
@@ -252,6 +374,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#64748b',
     fontWeight: '500',
+  },
+  clearFilters: {
+    fontSize: 14,
+    color: '#ef4444',
+    fontWeight: '600',
   },
   adBanner: {
     backgroundColor: '#e2e8f0',
@@ -290,7 +417,6 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   companyBadge: {
-    backgroundColor: '#e0f2fe',
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 6,
@@ -298,7 +424,6 @@ const styles = StyleSheet.create({
   companyText: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#1e88e5',
   },
   branchName: {
     fontSize: 16,
