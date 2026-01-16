@@ -210,10 +210,8 @@ export default function BranchDetailScreen() {
             </TouchableOpacity>
           </View>
 
-          {/* Ad Placeholder Bottom */}
-          <View style={styles.adBannerBottom}>
-            <Text style={styles.adText}>Reklam Alanı</Text>
-          </View>
+          {/* Banner Ad */}
+          <BannerAd />
 
           {/* Info Note */}
           <View style={styles.noteCard}>
