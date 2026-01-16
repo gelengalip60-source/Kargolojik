@@ -114,6 +114,16 @@ export default function BranchDetailScreen() {
 
           {/* Branch Header */}
           <View style={styles.headerCard}>
+            {/* Company Logo */}
+            {branch.company && COMPANY_LOGOS[branch.company] && (
+              <View style={styles.logoContainer}>
+                <Image
+                  source={COMPANY_LOGOS[branch.company]}
+                  style={styles.companyLogo}
+                  resizeMode="contain"
+                />
+              </View>
+            )}
             <View style={styles.companyBadge}>
               <Text style={styles.companyText}>{branch.company || 'Kargo Şubesi'}</Text>
             </View>
