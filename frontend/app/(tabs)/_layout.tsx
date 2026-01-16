@@ -36,10 +36,6 @@ const headerStyles = StyleSheet.create({
 export default function TabLayout() {
   const insets = useSafeAreaInsets();
   
-  // Calculate proper tab bar height
-  const TAB_BAR_HEIGHT = 56;
-  const bottomPadding = Math.max(insets.bottom, 8);
-  
   return (
     <Tabs
       screenOptions={{
@@ -49,30 +45,24 @@ export default function TabLayout() {
           backgroundColor: '#ffffff',
           borderTopWidth: 1,
           borderTopColor: '#e2e8f0',
-          height: TAB_BAR_HEIGHT + bottomPadding,
-          paddingBottom: bottomPadding,
-          paddingTop: 8,
-          elevation: 8,
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: -2 },
-          shadowOpacity: 0.1,
-          shadowRadius: 4,
+          height: 80,
+          paddingBottom: 20,
+          paddingTop: 10,
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
         },
         tabBarLabelStyle: {
           fontSize: 11,
           fontWeight: '600',
-          marginBottom: Platform.OS === 'ios' ? 0 : 4,
+          paddingBottom: 8,
         },
         tabBarIconStyle: {
-          marginTop: 2,
+          marginTop: 4,
         },
         headerStyle: {
           backgroundColor: '#1e88e5',
-          elevation: 4,
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 2 },
-          shadowOpacity: 0.2,
-          shadowRadius: 4,
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
@@ -86,7 +76,7 @@ export default function TabLayout() {
           title: 'Ana Sayfa',
           headerTitle: () => <CustomHeader />,
           tabBarIcon: ({ color, size }) => (
-            <Feather name="home" size={22} color={color} />
+            <Feather name="home" size={24} color={color} />
           ),
         }}
       />
@@ -96,7 +86,7 @@ export default function TabLayout() {
           title: 'Yardım',
           headerTitle: 'Yardım Konuları',
           tabBarIcon: ({ color, size }) => (
-            <Feather name="help-circle" size={22} color={color} />
+            <Feather name="help-circle" size={24} color={color} />
           ),
         }}
       />
@@ -106,7 +96,7 @@ export default function TabLayout() {
           title: 'Şube Ara',
           headerTitle: 'Şube Arama',
           tabBarIcon: ({ color, size }) => (
-            <Feather name="search" size={22} color={color} />
+            <Feather name="search" size={24} color={color} />
           ),
         }}
       />
