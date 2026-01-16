@@ -71,10 +71,8 @@ export default function HelpScreen() {
   return (
     <SafeAreaView style={styles.container} edges={['left', 'right']}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        {/* Ad Placeholder */}
-        <View style={styles.adBanner}>
-          <Text style={styles.adText}>Reklam Alanı</Text>
-        </View>
+        {/* Banner Ad */}
+        <BannerAd />
 
         {/* Introduction */}
         <View style={styles.introSection}>
