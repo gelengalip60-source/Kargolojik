@@ -282,6 +282,18 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.05,
     shadowRadius: 8,
     elevation: 2,
+    alignItems: 'center',
+  },
+  logoContainer: {
+    width: 120,
+    height: 80,
+    marginBottom: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  companyLogo: {
+    width: '100%',
+    height: '100%',
   },
   companyBadge: {
     backgroundColor: '#e0f2fe',
