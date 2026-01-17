@@ -34,17 +34,20 @@ api_router = APIRouter(prefix="/api")
 
 class Branch(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    name: str
-    company: str
-    city: str
-    district: str
-    address: str
-    phone: str
+    name: str = Field(alias="Sube_Adi") # Veritabanındaki Sube_Adi'nı name yapar
+    company: str = Field(alias="Sirket_Adi") # Sirket_Adi'nı company yapar
+    city: str = Field(alias="Sehir")
+    district: str = Field(alias="Ilce")
+    address: str = Field(alias="Adres")
+    phone: str = Field(alias="Telefon_1")
     working_hours: dict = {}
     google_maps_url: str = ""
     logo_url: str = ""
     source_url: str = ""
     created_at: datetime = Field(default_factory=datetime.utcnow)
+
+    class Config:
+        populate_by_name = True # Hem İngilizce hem Türkçe isimleri kabul eder
 
 class BranchCreate(BaseModel):
     name: str
