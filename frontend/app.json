@@ -38,14 +38,19 @@
           "resizeMode": "contain",
           "backgroundColor": "#1e88e5"
         }
-      ]
+      ],
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true
     },
     "extra": {
       "admobAppId": "ca-app-pub-9209845130988804~1893757821",
-      "admobBannerUnitId": "ca-app-pub-9209845130988804/1770452987"
+      "admobBannerUnitId": "ca-app-pub-9209845130988804/1770452987",
+      "router": {},
+      "eas": {
+        "projectId": "42a1d154-99d1-4100-9c27-a0e493a10351"
+      }
     }
   }
 }
